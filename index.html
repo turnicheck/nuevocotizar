@@ -10,43 +10,36 @@
             theme: {
                 extend: {
                     colors: {
-                        cobalt: {
-                            400: '#3377ff',
-                            500: '#0055ff',
-                            600: '#0044cc',
-                        },
-                        dark: {
-                            bg: '#050505',
-                            card: '#121212',
-                            input: '#1a1a1a',
-                            border: '#2a2a2a'
-                        }
+                        cobalt: { 400: '#3377ff', 500: '#0055ff', 600: '#0044cc' },
+                        dark: { bg: '#050505', card: '#121212', input: '#1a1a1a', border: '#2a2a2a' }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        /* Eliminar flechas de inputs numéricos para un diseño más limpio */
+
         input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+
+        .select-arrow {
+            appearance: none;
             -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010L12%2015L17%2010%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+            background-size: 24px 24px;
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            cursor: pointer;
         }
     </style>
 </head>
 <body class="bg-dark-bg text-gray-100 min-h-screen flex items-center justify-center p-4 antialiased selection:bg-cobalt-500 selection:text-white">
 
     <main class="w-full max-w-md bg-dark-card border border-dark-border rounded-3xl shadow-2xl overflow-hidden flex flex-col mt-4 mb-4">
-        
+
         <header class="pt-8 px-8 pb-6 text-center">
             <h1 class="text-2xl font-semibold tracking-tight">Cotizador Web</h1>
             <p class="text-gray-400 text-sm mt-2">Calcula tu presupuesto en tiempo real</p>
@@ -54,43 +47,38 @@
 
         <div class="px-8 mb-6">
             <div class="flex p-1 bg-dark-input rounded-xl border border-dark-border">
-                <button onclick="switchTab('similitud')" id="tab-similitud" class="flex-1 py-2.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 bg-cobalt-500 text-white shadow-md">
-                    Similitud
-                </button>
-                <button onclick="switchTab('ia')" id="tab-ia" class="flex-1 py-2.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-gray-400 hover:text-gray-200">
-                    Reducción IA
-                </button>
-                <button onclick="switchTab('ambas')" id="tab-ambas" class="flex-1 py-2.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-gray-400 hover:text-gray-200">
-                    Ambas
-                </button>
+                <button type="button" onclick="switchTab('similitud')" id="tab-similitud" class="flex-1 py-2.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 bg-cobalt-500 text-white shadow-md">Similitud</button>
+                <button type="button" onclick="switchTab('ia')" id="tab-ia" class="flex-1 py-2.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-gray-400 hover:text-gray-200">Reducción IA</button>
+                <button type="button" onclick="switchTab('ambas')" id="tab-ambas" class="flex-1 py-2.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-gray-400 hover:text-gray-200">Ambas</button>
             </div>
         </div>
 
         <div class="px-8 flex-1">
-            
-            <form id="form-similitud" class="space-y-5 transition-all duration-300">
+
+            <!-- SIMILITUD -->
+            <form id="form-similitud" class="space-y-5" onsubmit="return false">
                 <div class="space-y-1.5">
                     <label for="sim-words" class="block text-sm font-medium text-gray-300">Número de palabras</label>
-                    <input type="number" id="sim-words" inputmode="numeric" min="0" placeholder="Ej. 1500" 
+                    <input type="number" id="sim-words" inputmode="numeric" min="0" placeholder="Ej. 1500"
                         class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1.5">
                         <label for="sim-curr" class="block text-sm font-medium text-gray-300">Actual (%)</label>
-                        <input type="number" id="sim-curr" inputmode="decimal" min="0" max="100" placeholder="0" 
+                        <input type="number" id="sim-curr" inputmode="decimal" min="0" max="100" placeholder="0"
                             class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                     </div>
                     <div class="space-y-1.5">
                         <label for="sim-req" class="block text-sm font-medium text-gray-300">Requerido (%)</label>
-                        <input type="number" id="sim-req" inputmode="decimal" min="0" max="100" placeholder="0" 
+                        <input type="number" id="sim-req" inputmode="decimal" min="0" max="100" placeholder="0"
                             class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
                     <label for="sim-reports" class="block text-sm font-medium text-gray-300">Reportes adicionales</label>
-                    <select id="sim-reports" class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010L12%2015L17%2010%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:24px_24px] bg-[right_1rem_center] bg-no-repeat cursor-pointer">
+                    <select id="sim-reports" class="select-arrow w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                         <option value="0">0 Reportes (S/. 0)</option>
                         <option value="1">1 Reporte (S/. 5)</option>
                         <option value="2">2 Reportes (S/. 10)</option>
@@ -98,22 +86,21 @@
                         <option value="4">4 Reportes (S/. 20)</option>
                     </select>
                 </div>
-                
-                <div id="sim-error" class="hidden text-red-400 text-xs font-medium bg-red-900/20 border border-red-900/50 rounded-lg p-3">
-                    El porcentaje actual debe ser mayor al requerido.
-                </div>
+
+                <div id="sim-error" class="hidden text-red-400 text-xs font-medium bg-red-900/20 border border-red-900/50 rounded-lg p-3"></div>
             </form>
 
-            <form id="form-ia" class="hidden space-y-5 transition-all duration-300">
+            <!-- REDUCCIÓN IA -->
+            <form id="form-ia" class="hidden space-y-5" onsubmit="return false">
                 <div class="space-y-1.5">
                     <label for="ia-words" class="block text-sm font-medium text-gray-300">Número de palabras</label>
-                    <input type="number" id="ia-words" inputmode="numeric" min="0" placeholder="Ej. 1500" 
+                    <input type="number" id="ia-words" inputmode="numeric" min="0" placeholder="Ej. 1500"
                         class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                 </div>
 
                 <div class="space-y-1.5">
                     <label for="ia-curr" class="block text-sm font-medium text-gray-300">Porcentaje actual de IA (%)</label>
-                    <input type="number" id="ia-curr" inputmode="decimal" min="0" max="100" placeholder="Ej. 85" 
+                    <input type="number" id="ia-curr" inputmode="decimal" min="0" max="100" placeholder="Ej. 85"
                         class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                 </div>
 
@@ -131,15 +118,14 @@
                     </div>
                 </div>
 
-                <div id="ia-error" class="hidden text-red-400 text-xs font-medium bg-red-900/20 border border-red-900/50 rounded-lg p-3">
-                    El porcentaje actual debe ser mayor a la meta.
-                </div>
+                <div id="ia-error" class="hidden text-red-400 text-xs font-medium bg-red-900/20 border border-red-900/50 rounded-lg p-3"></div>
             </form>
 
-            <form id="form-ambas" class="hidden space-y-5 transition-all duration-300">
+            <!-- AMBAS -->
+            <form id="form-ambas" class="hidden space-y-5" onsubmit="return false">
                 <div class="space-y-1.5">
                     <label for="ambas-words" class="block text-sm font-medium text-gray-300">Número de palabras (Total)</label>
-                    <input type="number" id="ambas-words" inputmode="numeric" min="0" placeholder="Ej. 1500" 
+                    <input type="number" id="ambas-words" inputmode="numeric" min="0" placeholder="Ej. 1500"
                         class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                 </div>
 
@@ -148,19 +134,19 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label for="ambas-sim-curr" class="block text-sm font-medium text-gray-300">Actual (%)</label>
-                            <input type="number" id="ambas-sim-curr" inputmode="decimal" min="0" max="100" placeholder="0" 
+                            <input type="number" id="ambas-sim-curr" inputmode="decimal" min="0" max="100" placeholder="0"
                                 class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                         </div>
                         <div class="space-y-1.5">
                             <label for="ambas-sim-req" class="block text-sm font-medium text-gray-300">Requerido (%)</label>
-                            <input type="number" id="ambas-sim-req" inputmode="decimal" min="0" max="100" placeholder="0" 
+                            <input type="number" id="ambas-sim-req" inputmode="decimal" min="0" max="100" placeholder="0"
                                 class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                         </div>
                     </div>
 
                     <div class="space-y-1.5 mt-4">
                         <label for="ambas-sim-reports" class="block text-sm font-medium text-gray-300">Reportes adicionales</label>
-                        <select id="ambas-sim-reports" class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010L12%2015L17%2010%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:24px_24px] bg-[right_1rem_center] bg-no-repeat cursor-pointer">
+                        <select id="ambas-sim-reports" class="select-arrow w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                             <option value="0">0 Reportes (S/. 0)</option>
                             <option value="1">1 Reporte (S/. 5)</option>
                             <option value="2">2 Reportes (S/. 10)</option>
@@ -175,7 +161,7 @@
                     <div class="space-y-3">
                         <div class="space-y-1.5">
                             <label for="ambas-ia-curr" class="block text-sm font-medium text-gray-300">IA Actual (%)</label>
-                            <input type="number" id="ambas-ia-curr" inputmode="decimal" min="0" max="100" placeholder="0" 
+                            <input type="number" id="ambas-ia-curr" inputmode="decimal" min="0" max="100" placeholder="0"
                                 class="w-full bg-dark-input border border-dark-border rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-cobalt-500 focus:border-transparent transition-all">
                         </div>
                         <div class="space-y-1.5">
@@ -194,8 +180,7 @@
                     </div>
                 </div>
 
-                <div id="ambas-error" class="hidden text-red-400 text-xs font-medium bg-red-900/20 border border-red-900/50 rounded-lg p-3">
-                </div>
+                <div id="ambas-error" class="hidden text-red-400 text-xs font-medium bg-red-900/20 border border-red-900/50 rounded-lg p-3"></div>
             </form>
 
         </div>
@@ -205,7 +190,7 @@
             <div class="text-4xl sm:text-5xl font-bold text-white tracking-tight flex items-baseline gap-1 transition-all" id="result-display">
                 <span class="text-2xl sm:text-3xl text-cobalt-400">S/.</span> 0.00
             </div>
-            <p class="text-xs text-gray-500 mt-3 text-center">Valores redondeados al múltiplo de 5 más cercano.</p>
+            <p class="text-xs text-gray-500 mt-3 text-center">El total se redondea a múltiplo de 5 (se ignoran los decimales: 25.89 → 25, 26.50 → 30).</p>
         </div>
 
     </main>
@@ -213,232 +198,159 @@
     <script>
         let currentTab = 'similitud';
 
-        // Elementos DOM
-        const formSimilitud = document.getElementById('form-similitud');
-        const formIA = document.getElementById('form-ia');
-        const formAmbas = document.getElementById('form-ambas');
-        const tabSimilitud = document.getElementById('tab-similitud');
-        const tabIA = document.getElementById('tab-ia');
-        const tabAmbas = document.getElementById('tab-ambas');
-        const resultDisplay = document.getElementById('result-display');
-        const simError = document.getElementById('sim-error');
-        const iaError = document.getElementById('ia-error');
-        const ambasError = document.getElementById('ambas-error');
+        const $ = id => document.getElementById(id);
 
-        // Inputs Similitud
-        const simWords = document.getElementById('sim-words');
-        const simCurr = document.getElementById('sim-curr');
-        const simReq = document.getElementById('sim-req');
-        const simReports = document.getElementById('sim-reports');
+        const forms = { similitud: $('form-similitud'), ia: $('form-ia'), ambas: $('form-ambas') };
+        const tabs = { similitud: $('tab-similitud'), ia: $('tab-ia'), ambas: $('tab-ambas') };
+        const errors = { similitud: $('sim-error'), ia: $('ia-error'), ambas: $('ambas-error') };
+        const resultDisplay = $('result-display');
 
-        // Inputs IA
-        const iaWords = document.getElementById('ia-words');
-        const iaCurr = document.getElementById('ia-curr');
-        const iaTargets = document.getElementsByName('ia-target');
-
-        // Inputs Ambas
-        const ambasWords = document.getElementById('ambas-words');
-        const ambasSimCurr = document.getElementById('ambas-sim-curr');
-        const ambasSimReq = document.getElementById('ambas-sim-req');
-        const ambasSimReports = document.getElementById('ambas-sim-reports');
-        const ambasIaCurr = document.getElementById('ambas-ia-curr');
-        const ambasIaTargets = document.getElementsByName('ambas-ia-target');
-
-        // Clases
         const activeTabClasses = ['bg-cobalt-500', 'text-white', 'shadow-md'];
         const inactiveTabClasses = ['text-gray-400', 'hover:text-gray-200', 'bg-transparent'];
 
-        [simWords, simCurr, simReq, simReports].forEach(el => el.addEventListener('input', calculate));
-        [iaWords, iaCurr].forEach(el => el.addEventListener('input', calculate));
-        iaTargets.forEach(el => el.addEventListener('change', calculate));
-        [ambasWords, ambasSimCurr, ambasSimReq, ambasSimReports, ambasIaCurr].forEach(el => el.addEventListener('input', calculate));
-        ambasIaTargets.forEach(el => el.addEventListener('change', calculate));
+        // Cualquier cambio en un formulario recalcula
+        Object.values(forms).forEach(f => {
+            f.addEventListener('input', calculate);
+            f.addEventListener('change', calculate);
+        });
 
         function switchTab(tab) {
             if (currentTab === tab) return;
             currentTab = tab;
 
-            formSimilitud.reset();
-            formIA.reset();
-            formAmbas.reset();
-            updateDisplay(0);
-            simError.classList.add('hidden');
-            iaError.classList.add('hidden');
-            ambasError.classList.add('hidden');
-
-            formSimilitud.classList.add('hidden');
-            formIA.classList.add('hidden');
-            formAmbas.classList.add('hidden');
-            
-            [tabSimilitud, tabIA, tabAmbas].forEach(t => {
+            Object.values(forms).forEach(f => { f.reset(); f.classList.add('hidden'); });
+            Object.values(errors).forEach(e => e.classList.add('hidden'));
+            Object.values(tabs).forEach(t => {
                 t.classList.remove(...activeTabClasses);
                 t.classList.add(...inactiveTabClasses);
             });
 
-            if (tab === 'similitud') {
-                formSimilitud.classList.remove('hidden');
-                tabSimilitud.classList.remove(...inactiveTabClasses);
-                tabSimilitud.classList.add(...activeTabClasses);
-            } else if (tab === 'ia') {
-                formIA.classList.remove('hidden');
-                tabIA.classList.remove(...inactiveTabClasses);
-                tabIA.classList.add(...activeTabClasses);
-            } else if (tab === 'ambas') {
-                formAmbas.classList.remove('hidden');
-                tabAmbas.classList.remove(...inactiveTabClasses);
-                tabAmbas.classList.add(...activeTabClasses);
-            }
+            forms[tab].classList.remove('hidden');
+            tabs[tab].classList.remove(...inactiveTabClasses);
+            tabs[tab].classList.add(...activeTabClasses);
+
+            updateDisplay(0);
         }
 
-        function calculate() {
-            if (currentTab === 'similitud') {
-                calculateSimilitud();
-            } else if (currentTab === 'ia') {
-                calculateIA();
-            } else if (currentTab === 'ambas') {
-                calculateAmbas();
-            }
-        }
-
-        // Lógica de Redondeo
-        function roundToNext5(value) {
+        /* ---------- Redondeo ----------
+           Se ignoran los decimales y luego se sube al múltiplo de 5:
+           25 → 25 | 25.89 → 25 | 26.50 → 30 | 27.84 → 30 | 28.90 → 30 | 29 → 30 | 30 → 30 */
+        function roundCost(value) {
             if (value <= 0) return 0;
-            return Math.ceil(value / 5) * 5;
+            const whole = Math.floor(value + 1e-9); // evita errores de punto flotante
+            return Math.ceil(whole / 5) * 5;
         }
 
         function updateDisplay(value) {
-            const formatter = new Intl.NumberFormat('es-PE', {
+            const formatted = new Intl.NumberFormat('es-PE', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
-            });
-            const formattedValue = formatter.format(value);
-            resultDisplay.innerHTML = `<span class="text-2xl sm:text-3xl text-cobalt-400">S/.</span> ${formattedValue}`;
+            }).format(value);
+            resultDisplay.innerHTML = `<span class="text-2xl sm:text-3xl text-cobalt-400">S/.</span> ${formatted}`;
+        }
+
+        function showError(key, msg) {
+            errors[key].innerHTML = msg;
+            errors[key].classList.remove('hidden');
+            updateDisplay(0);
+        }
+
+        function hideError(key) { errors[key].classList.add('hidden'); }
+
+        function getRadio(name) {
+            const checked = document.querySelector(`input[name="${name}"]:checked`);
+            return checked ? parseInt(checked.value) : 10;
+        }
+
+        /* ---------- Fórmulas (sin redondear) ---------- */
+
+        // palabras * (% actual - % requerido) * 0.05 + reportes adicionales (S/. 5 c/u)
+        function similitudCost(words, current, required, reports) {
+            return words * ((current - required) / 100) * 0.05 + reports * 5;
+        }
+
+        // Meta *% (10%): palabras * (% actual - 10%) * 0.01 + 5
+        // Meta 0%:       palabras * (% actual) * 0.01 + 25
+        function iaCost(words, current, target) {
+            if (target === 10) return words * ((current - 10) / 100) * 0.01 + 5;
+            return words * (current / 100) * 0.01 + 25;
+        }
+
+        /* ---------- Cálculo por pestaña ---------- */
+
+        function calculate() {
+            if (currentTab === 'similitud') calculateSimilitud();
+            else if (currentTab === 'ia') calculateIA();
+            else calculateAmbas();
         }
 
         function calculateSimilitud() {
-            const words = parseFloat(simWords.value) || 0;
-            const current = parseFloat(simCurr.value) || 0;
-            const target = parseFloat(simReq.value) || 0;
-            const reports = parseInt(simReports.value) || 0;
+            const words = parseFloat($('sim-words').value) || 0;
+            const current = parseFloat($('sim-curr').value) || 0;
+            const required = parseFloat($('sim-req').value) || 0;
+            const reports = parseInt($('sim-reports').value) || 0;
 
             if (words > 0 && current > 0) {
-                if (current <= target) {
-                    simError.classList.remove('hidden');
-                    updateDisplay(0);
-                    return;
+                if (current <= required) {
+                    return showError('similitud', 'El porcentaje actual debe ser mayor al requerido.');
                 }
-                simError.classList.add('hidden');
-                
-                const currentDec = current / 100;
-                const targetDec = target / 100;
-                const reportsCost = reports * 5;
-
-                const baseCost = (words * (currentDec - targetDec) * 0.05) + reportsCost;
-                const finalCost = roundToNext5(baseCost);
-                updateDisplay(finalCost);
+                hideError('similitud');
+                updateDisplay(roundCost(similitudCost(words, current, required, reports)));
             } else {
-                simError.classList.add('hidden');
+                hideError('similitud');
                 updateDisplay(0);
             }
         }
 
         function calculateIA() {
-            const words = parseFloat(iaWords.value) || 0;
-            const current = parseFloat(iaCurr.value) || 0;
-            
-            let targetGoal = 10;
-            for (const radio of iaTargets) {
-                if (radio.checked) {
-                    targetGoal = parseInt(radio.value);
-                    break;
-                }
-            }
+            const words = parseFloat($('ia-words').value) || 0;
+            const current = parseFloat($('ia-curr').value) || 0;
+            const target = getRadio('ia-target');
 
             if (words > 0 && current > 0) {
-                if (targetGoal === 10 && current <= 10) {
-                    iaError.classList.remove('hidden');
-                    updateDisplay(0);
-                    return;
+                if (target === 10 && current <= 10) {
+                    return showError('ia', 'El porcentaje actual debe ser mayor a la meta (10%).');
                 }
-
-                iaError.classList.add('hidden');
-                let baseCost = 0;
-                const currentDec = current / 100;
-
-                // Fórmulas actualizadas a +5 y +25
-                if (targetGoal === 10) {
-                    baseCost = (words * (currentDec - 0.10) * 0.01) + 5;
-                } else if (targetGoal === 0) {
-                    baseCost = (words * currentDec * 0.01) + 25;
-                }
-
-                const finalCost = roundToNext5(baseCost);
-                updateDisplay(finalCost);
+                hideError('ia');
+                updateDisplay(roundCost(iaCost(words, current, target)));
             } else {
-                iaError.classList.add('hidden');
+                hideError('ia');
                 updateDisplay(0);
             }
         }
 
         function calculateAmbas() {
-            const words = parseFloat(ambasWords.value) || 0;
-            const simCurr = parseFloat(ambasSimCurr.value) || 0;
-            const simReq = parseFloat(ambasSimReq.value) || 0;
-            const simReports = parseInt(ambasSimReports.value) || 0;
-            const iaCurr = parseFloat(ambasIaCurr.value) || 0;
-            
-            let iaTarget = 10;
-            for (const radio of ambasIaTargets) {
-                if (radio.checked) {
-                    iaTarget = parseInt(radio.value);
-                    break;
-                }
-            }
+            const words = parseFloat($('ambas-words').value) || 0;
+            const simCurr = parseFloat($('ambas-sim-curr').value) || 0;
+            const simReq = parseFloat($('ambas-sim-req').value) || 0;
+            const reports = parseInt($('ambas-sim-reports').value) || 0;
+            const iaCurr = parseFloat($('ambas-ia-curr').value) || 0;
+            const iaTarget = getRadio('ambas-ia-target');
 
-            if (words > 0 && (simCurr > 0 || iaCurr > 0)) {
-                let errors = [];
-                let simCost = 0;
-                let iaCost = 0;
-
-                if (simCurr > 0) {
-                    if (simCurr <= simReq) {
-                        errors.push("Similitud: El actual debe ser mayor al requerido.");
-                    } else {
-                        const sCurrDec = simCurr / 100;
-                        const sReqDec = simReq / 100;
-                        const reportsCost = simReports * 5;
-                        simCost = (words * (sCurrDec - sReqDec) * 0.05) + reportsCost;
-                    }
-                }
-
-                if (iaCurr > 0) {
-                    if (iaTarget === 10 && iaCurr <= 10) {
-                        errors.push("IA: Para meta de 10%, el actual debe ser mayor.");
-                    } else {
-                        const iCurrDec = iaCurr / 100;
-                        // Fórmulas actualizadas a +5 y +25
-                        if (iaTarget === 10) {
-                            iaCost = (words * (iCurrDec - 0.10) * 0.01) + 5;
-                        } else {
-                            iaCost = (words * iCurrDec * 0.01) + 25;
-                        }
-                    }
-                }
-
-                if (errors.length > 0) {
-                    ambasError.innerHTML = errors.join('<br>');
-                    ambasError.classList.remove('hidden');
-                    updateDisplay(0);
-                } else {
-                    ambasError.classList.add('hidden');
-                    const totalBaseCost = simCost + iaCost;
-                    updateDisplay(roundToNext5(totalBaseCost));
-                }
-
-            } else {
-                ambasError.classList.add('hidden');
+            if (!(words > 0 && (simCurr > 0 || iaCurr > 0))) {
+                hideError('ambas');
                 updateDisplay(0);
+                return;
             }
+
+            const msgs = [];
+            let total = 0;
+
+            if (simCurr > 0) {
+                if (simCurr <= simReq) msgs.push('Similitud: el actual debe ser mayor al requerido.');
+                else total += similitudCost(words, simCurr, simReq, reports);
+            }
+
+            if (iaCurr > 0) {
+                if (iaTarget === 10 && iaCurr <= 10) msgs.push('IA: para meta de 10%, el actual debe ser mayor.');
+                else total += iaCost(words, iaCurr, iaTarget);
+            }
+
+            if (msgs.length) return showError('ambas', msgs.join('<br>'));
+
+            hideError('ambas');
+            // Se suman ambos servicios y se redondea una sola vez al final
+            updateDisplay(roundCost(total));
         }
     </script>
 </body>
